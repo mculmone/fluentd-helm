@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels: {{ include "newrelic.labels" . | indent 4 }}
+  name: {{ template "newrelic.fluentDConfig" . }}
+data:
+  # Configuration files: server, input, filters and output
+  # ======================================================
+  fluent.conf: |
+    <source>
+      @type tail
+      @id in_tail_container_logs
+      path /var/log/containers/*.log
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        @type json
+        time_format %Y-%m-%dT%H:%M:%S.%NZ
+      </parse>
+    </source>
+
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      @id filter_kube_metadata
+    </filter>
+
+    <match kubernetes.**>
+      @type ec2_metadata
+
+      metadata_refresh_seconds 300 # Optional, default 300 seconds
+
+      output_tag ${instance_id}.${tag}
+      <record>
+        hostname      ${tagset_name}
+        instance_id   ${instance_id}
+        instance_type ${instance_type}
+        az            ${availability_zone}
+        private_ip    ${private_ip}
+        vpc_id        ${vpc_id}
+        ami_id        ${image_id}
+        account_id    ${account_id}
+      </record>
+    </match>
+
+    <match **>
+      @type newrelic
+      license_key "#{ENV['LICENSE_KEY']}"
+    </match>
