@@ -12,8 +12,8 @@
 #   licenseKey:
 
 image:
-  repository: andrewlozoya/fluentd
-  tag: 1.4
+  repository: newrelic/fluentd
+  tag: latest
   pullPolicy: IfNotPresent
 
 resources: {}
