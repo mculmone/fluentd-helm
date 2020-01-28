@@ -16,7 +16,14 @@ image:
   tag: 1.0
   pullPolicy: IfNotPresent
 
-resources: {}
+resources:
+  {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 250m
+  #   memory: 64Mi
 
 rbac:
   # Specifies whether RBAC resources should be created
