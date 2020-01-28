@@ -13,7 +13,7 @@
 
 image:
   repository: newrelic/fluentd
-  tag: 1.0
+  tag: "1.0"
   pullPolicy: IfNotPresent
 
 resources:
