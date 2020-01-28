@@ -29,14 +29,9 @@ See [values.yaml](../../blob/master/newrelic-logging/values.yaml) for the defaul
 | `serviceAccount.create`            | If true, a service account would be created and assigned to the deployment                                                                                                                                                                        | true                        |
 | `serviceAccount.name`              | The service account to assign to the deployment. If `serviceAccount.create` is true then this name will be used when creating the service account                                                                                                 |                             |
 
-## Example
+## Examples
 
-```sh
-helm install ./helm/fluentd-helm \
---set licenseKey=(your-license-key)
-```
-
-## Image
+### Image
 
 The default image and repository:
 
@@ -47,7 +42,7 @@ image:
   pullPolicy: IfNotPresent
 ```
 
-## Tolerations
+### Tolerations
 
 The default set of tolerations assigned to our daemonset is shown below:
 
