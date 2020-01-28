@@ -5,7 +5,9 @@ This Helm chart deploys Fluentd as a DaemonSet for New Relic Logging
 ## Deploying the Helm Chart
 
 - Clone this repo
-- Deploy the chart using your New Relic license key: `helm install --set licenseKey=(your-license-key) ./helm/fluentd-helm`
+- Make sure you have the latest version of helm: `helm repo update`
+- Export your license key: `export NEW_RELIC_INSIGHTS_INSERT_KEY="<INSERT YOUR NEW RELIC INSIGHTS API KEY>"`
+- Deploy the chart using your New Relic license key: `helm install --set nrInsightsInsertKey=$NEW_RELIC_INSIGHTS_INSERT_KEY --name <INSERT NAME> .`
 - Check the New Relic Logs for your logs and AWS EC2 tags
 
 ## Chart Details
