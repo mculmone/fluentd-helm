@@ -66,3 +66,10 @@ Return the licenseKey
     {{- .Values.licenseKey | default "" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Returns if the template should render, it checks if the required values are set.
+*/}}
+{{- define "newrelic.areValuesValid" -}}
+{{- $licenseKey := include "newrelic-logging.licenseKey" . -}}
+{{- end -}}
