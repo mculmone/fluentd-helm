@@ -7,9 +7,9 @@ This Helm chart deploys Fluentd as a DaemonSet for New Relic Logging. This chart
 - Clone this repo
 - Edit the [configmap.yaml](../../blob/master/newrelic-logging/templates/configmap.yaml) to define the EC2 tags you want to capture as well as the log configurations such as log source, patterns, etc ... that you want to use
 - Export your license key: `export NEW_RELIC_LICENSE_KEY="<INSERT YOUR NEW RELIC LICENSE KEY>"`
-- Deploy the chart using your New Relic license key (assumes helm v2.x):
+- Deploy the chart using your New Relic license key (assumes helm v2.x):  
   `helm install --set licenseKey=$NEW_RELIC_LICENSE_KEY --name fluentd .`
-- If your are using Helm v3.x you don't need to use the --name flag
+- If your are using Helm v3.x you don't need to use the --name flag:  
   `helm install --set licenseKey=$NEW_RELIC_LICENSE_KEY fluentd .`
 - Check New Relic Logs for your logs and AWS EC2 tags
 
