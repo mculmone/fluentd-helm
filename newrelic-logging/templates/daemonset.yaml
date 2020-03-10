@@ -1,3 +1,5 @@
+{{- if (include "newrelic.areValuesValid" .) }}
+{{- $licenseKey := include "newrelic.licenseKey" . -}}
 apiVersion: apps/v1beta2
 kind: DaemonSet
 metadata:
@@ -33,15 +35,27 @@ spec:
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           env:
             - name: ENDPOINT
-              {{- if eq (substr 0 2 (include "newrelic.licenseKey" .)) "eu" }}
+              {{- if  $licenseKey }} 
+                {{- if eq (substr 0 2 (include "newrelic.licenseKey" .)) "eu" }}
               value: "https://log-api.eu.newrelic.com/log/v1"
+                {{- else }}
+              value: "https://log-api.newrelic.com/log/v1"
+                {{- end }}
               {{- else }}
               value: "https://log-api.newrelic.com/log/v1"
               {{- end }}
             - name: SOURCE
               value: "kubernetes"
             - name: LICENSE_KEY
-              value: {{ template "newrelic.licenseKey" . }}
+              valueFrom:
+                secretKeyRef:
+                  {{- if $licenseKey }}
+                  name: {{ template "newrelic.fullname" . }}-config
+                  key: license
+                  {{- else }}
+                  name: {{ include "newrelic.customSecretName" . }}
+                  key: {{ include "newrelic.customSecretKey" . }}
+                  {{- end }}
           volumeMounts:
             - name: fluentd-config
               mountPath: /fluentd/etc
@@ -49,6 +63,10 @@ spec:
             - name: var
               mountPath: /var
               readOnly: false
+          {{- if .Values.resources }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          {{- end }}
       volumes:
         - name: fluentd-config
           configMap:
@@ -67,4 +85,4 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
       {{- end }}
-
+{{- end }}
