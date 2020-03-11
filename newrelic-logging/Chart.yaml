@@ -2,7 +2,7 @@ apiVersion: v1
 description: A Helm chart to deploy Fluentd as a DaemonSet for New Relic Logging
 icon: https://newrelic.com/assets/newrelic/source/NewRelic-logo-square.svg
 name: newrelic-logging
-version: 2.2.2
+version: 2.3.0
 appVersion: v2.4.0
 home: https://github.com/newrelic/fluentd-helm
 maintainers:

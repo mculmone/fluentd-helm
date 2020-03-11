@@ -49,7 +49,8 @@ Create the name of the service account to use
 Create the name of the fluentd config
 */}}
 {{- define "newrelic.fluentDConfig" -}}
-{{ template "newrelic.fullname" . }}-fluentd-config
+{{- $configMap :=  printf "%s-%s" (include "newrelic.fullname" .) "-fluentd-config" -}}
+{{ default $configMap .Values.customConfigMapName }}
 {{- end -}}
 
 {{/*

@@ -1,3 +1,4 @@
+{{- if not .Values.customConfigMapName -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -61,3 +62,4 @@ data:
       @type newrelic
       license_key "#{ENV['LICENSE_KEY']}"
     </match>
+{{- end }}
