@@ -57,5 +57,3 @@ tolerations:
     effect: "NoExecute"
 
 updateStrategy: RollingUpdate
-
-#customConfigMapName : ""
