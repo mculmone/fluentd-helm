@@ -1,4 +1,4 @@
-FROM fluent/fluentd:v1.7.4-debian-1.0
+FROM fluent/fluentd:v1.9.1-debian-1.0
 
 LABEL maintainer="Eduardo Silva <eduardo@treasure-data.com>"
 USER root
