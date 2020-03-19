@@ -1,4 +1,4 @@
-FROM fluent/fluentd:v1.9.1-debian-1.0
+FROM fluent/fluentd:v1.7.4-debian-1.0
 
 LABEL maintainer="Eduardo Silva <eduardo@treasure-data.com>"
 USER root
@@ -10,12 +10,12 @@ ENV GEM_HOME /fluentd/vendor/bundle/ruby/2.6.0
 ENV FLUENTD_DISABLE_BUNDLER_INJECTION 1
 
 COPY Gemfile* /fluentd/
-RUN buildDeps="sudo make gcc g++ libc-dev libffi-dev" \
+RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev libffi-dev" \
     && apt-get update \
     && apt-get upgrade -y \
     && apt-get install \
     -y --no-install-recommends \
-    $buildDeps net-tools \
+    $buildDeps net-tools libjemalloc1 \
     && gem install bundler --version 1.16.2 \
     && bundle config silence_root_warning true \
     && bundle install --gemfile=/fluentd/Gemfile --path=/fluentd/vendor/bundle \
@@ -42,5 +42,6 @@ COPY entrypoint.sh /fluentd/entrypoint.sh
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
 
+ENV LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.1"
 # Overwrite ENTRYPOINT to run fluentd as root for /var/log / /var/lib
 ENTRYPOINT ["tini", "--", "/fluentd/entrypoint.sh"]
